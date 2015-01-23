@@ -47,13 +47,37 @@ class ScholarScraper
   end
 
 
+  # def bibliography
+  #   formatted_titles = []
+  #   titles.each_with_index do |t, i|
+  #     formatted_titles << "#{years[i]} - #{t}"
+  #   end
+  #   puts get_page.at_xpath("//div[class='gs_a']")
+  #   # formatted_titles
+  # end
   def bibliography
     formatted_titles = []
+    bibliography = []
+    split_bibliography= []
+    authors= []
     titles.each_with_index do |t, i|
       formatted_titles << "#{years[i]} - #{t}"
     end
+    get_page.css(".gs_a").each do |bib|
+      bibliography << bib
+    end
+    bibliography.each { |element|
+      split_bibliography << element.text }
     formatted_titles
+    split_bibliography.each do |x|
+      authors << x.split("-")[0]
+    # puts authors
+
+    end
+    puts authors[0], titles[0]
+
   end
+
 
 end
 
