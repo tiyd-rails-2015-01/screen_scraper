@@ -47,15 +47,19 @@ class ScholarScraper
   # Get the results page for Carlo Tomasi
   def user_link
     @user_link = "http://scholar.google.com/scholar?q=#{@first_name}+#{@last_name}&hl=en&as_sdt=0,34"
+    return @user_link
   end
   #user_input =
-  def page
-    @page = Nokogiri::HTML(HTTParty.get(@user_link).body)
+  def page_body
+    @page = Nokogiri::HTML(HTTParty.get(user_link).body)
   end
   ## Get an array of links to titles
-  #article_title_links = page.css(".gs_rt a")
-#
-  ## Pull out all the titles
+  def title_creation
+    article_title_links = page_body.css(".gs_rt a")
+    titles = article_title_links.map {|l| l.children[0].to_s}
+    return titles
+  end
+  # Pull out all the titles
   #titles = article_title_links.map {|l| l.children[0].to_s}
 #
   ## Find all the publication years
