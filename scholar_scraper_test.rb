@@ -37,6 +37,6 @@ class ScholarScraperTest < Minitest::Test
 
   def test_list_pub_titles
     author = ScholarScraper.new("Carlo Tomasi")
-    list.include?("1994 - Good features to track")
+    author.list.include?("1994 - Good features to track")
   end
 end

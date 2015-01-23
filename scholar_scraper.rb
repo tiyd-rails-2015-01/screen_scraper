@@ -66,7 +66,14 @@ class ScholarScraper
     years = page_body.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}
     return years
   end
-  
+
+  def list
+    title_creation.each_with_index do |t, i|
+      puts "#{years[i]} - #{t}"
+    end
+  end
+
+
   ## Write out all the publications in the form "2013 - Paper's Awesome Title"
   #titles.each_with_index do |t, i|
   #  puts "#{years[i]} - #{t}"
