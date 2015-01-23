@@ -24,15 +24,17 @@ class ScholarScraper
   end
 
   def title_links
-    title_links = get_page.css(".gs_rt a")
+    title_links = get_page.css("gs_ri").css(".gs_rt a")
   end
 
   def titles
     titles = title_links.map {|l| l.children[0].to_s}
   end
 
-  # def
-  #   years = @page.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}end
+  def years
+    years = get_page.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}
+  end
+
 end
 
 
