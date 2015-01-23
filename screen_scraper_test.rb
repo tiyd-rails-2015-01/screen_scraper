@@ -2,7 +2,6 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'httparty'
 require 'nokogiri'
-require './scholar_scraper'
 require './html_query'
 
 class ScreenScraperTest < Minitest::Test
@@ -19,6 +18,9 @@ class ScreenScraperTest < Minitest::Test
     assert HtmlQuery.new("Carlo Tomasi")
   end
 
+  def test_02_article_titles_in_array
+    assert article_title_links.is_a?
+  end
 
 
 end
