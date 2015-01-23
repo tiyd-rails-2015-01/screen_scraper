@@ -21,6 +21,11 @@ class ScholarScraperTest < Minitest::Test
     assert page != nil
   end
 
+  def test_moo
+    scraper = ScholarScraper.new("Carlo Tomasi", File.open("./carlo.html").read)
+    assert_match (/Carlo Tomasi/), scraper.title_links.to_s
+  end
+
 ##nokogiri successfully gets some data
 
 ##an array of links is created
