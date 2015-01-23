@@ -15,6 +15,8 @@
 
 class Page
 
+  attr_reader :everything
+
   def initialize( everything )
     @everything = everything
     @titles = nil
@@ -24,22 +26,23 @@ class Page
   end
 
   def getTitles
-    article_title_links = @everything.css(".gs_rt a")
+    article_title_links = @everything.css(".gs_ri").css(".gs_rt a")
     @titles = article_title_links.map {|l| l.children[0].to_s}
   end
 
   def getYears
-    @years = @everything.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)} #<-looking for a string of 4 digits
+    # @years = @everything.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}#<-looking for a string of 4 digits
+    @years = @everything.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}#<-looking for a string of 4 digits
+
   end
 
   def getArticles
-    ###return array of Articles
     arrayOfArticles = []
     @titles.each_with_index do |title, index|
       arrayOfArticles << Article.new(title, @years[index],nil,nil)
-      # puts "#{@years[index]} - #{title}"
     end
 
+    # puts "This runs. arrayOfArticles.length = #{arrayOfArticles.length}"
     return arrayOfArticles
   end
 

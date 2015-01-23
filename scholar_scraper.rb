@@ -14,6 +14,13 @@ page = Page.new(Nokogiri::HTML(HTTParty.get("http://scholar.google.com/scholar?q
 
 # Get an array of links to titles
 # article_title_links = page.css(".gs_rt a")
+
+# article_title_links = page.everything.css(".gs_rt a")
+# titles = article_title_links.map {|l| l.children[0].to_s}
+#
+# binding.pry
+
+
 page.getTitles
 
 # Pull out all the titles
