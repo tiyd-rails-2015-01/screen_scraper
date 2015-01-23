@@ -9,23 +9,23 @@ class HtmlQuery
     @scholar = scholar.split(" ")
     @first_name = @scholar[0]
     @last_name = @scholar[1]
-    @full_page = full_page
+    @raw_text = full_page
   end
 
   def url
     @url = "http://scholar.google.com/scholar?q=#{@first_name}+#{@last_name}"
   end
 
-  def page_text
-    @page_text = @full_page ||= HTTParty.get(@url).body
+  def raw_text
+    @raw_text ||= HTTParty.get(@url).body
   end
 
-  def get_page
-    Nokogiri::HTML(@page_text)
+  def page
+    Nokogiri::HTML(raw_text)
   end
 
   def article_title_links
-    get_page.css(".gs_rt a").to_a
+    page.css(".gs_rt a").to_a
   end
 
 
