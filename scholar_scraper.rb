@@ -26,8 +26,7 @@ page.getYears
 # Write out all the publications in the form "2013 - Paper's Awesome Title"
 # titles.each_with_index do |t, i|
 #   puts "#{years[i]} - #{t}"
-page.getArticles
-
+page.showArticles
   # binding.pry
 
 # end

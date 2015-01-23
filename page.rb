@@ -10,6 +10,7 @@
 # getYears
 # getLocations
 # getArticles
+# showArticles
 #########
 
 class Page
@@ -33,8 +34,20 @@ class Page
 
   def getArticles
     ###return array of Articles
-    @titles.each_with_index do |t, i|
-      puts "#{@years[i]} - #{t}"
+    arrayOfArticles = []
+    @titles.each_with_index do |title, index|
+      arrayOfArticles << Article.new(title, @years[index],nil,nil)
+      # puts "#{@years[index]} - #{title}"
+    end
+
+    return arrayOfArticles
+  end
+
+  def showArticles
+    bunchOfArticles = getArticles
+
+    bunchOfArticles.each do |article|
+      puts "#{article.year} - #{article.title}"
     end
   end
 end
