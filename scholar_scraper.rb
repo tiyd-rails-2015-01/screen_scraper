@@ -32,6 +32,7 @@
 require 'httparty'
 require 'nokogiri'
 require './article.rb'
+require 'pry'
 
 def get_user_input
   gets.chomp
@@ -55,13 +56,13 @@ class ScholarScraper
   end
   ## Get an array of links to titles, Pull out all the titles
   def title_creation
-    article_title_links = page_body.css(".gs_rt a")
+    article_title_links = page_body.css(".gs_ri").css(".gs_rt a")
     titles = article_title_links.map {|l| l.children[0].to_s}
     return titles
   end
 
   def years
-    years = page_body.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
+    years = page_body.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}
     return years
   end
   ## Find all the publication years
