@@ -1,5 +1,6 @@
 require 'httparty'
 require 'nokogiri'
+require './article'
 
 # Get the results page for Carlo Tomasi
 page = Nokogiri::HTML(HTTParty.get("http://scholar.google.com/scholar?q=carlo+tomasi&hl=en&as_sdt=0,34").body)
