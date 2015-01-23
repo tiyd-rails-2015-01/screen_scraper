@@ -15,6 +15,10 @@ class ScreenScraperTest < Minitest::Test
     assert HtmlQuery
   end
 
+  def test_01_html_query_has_arguments
+    assert HtmlQuery.new("Carlo Tomasi")
+  end
+
 
 
 end
