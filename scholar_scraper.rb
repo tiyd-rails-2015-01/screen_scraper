@@ -7,6 +7,8 @@ def get_user_input
 end
 
 class ScholarScraper
+  attr_reader :author
+
   def initialize(author)
     @author= author.split(" ")
     @first_name=@author[0]
@@ -21,13 +23,15 @@ class ScholarScraper
     @page = Nokogiri::HTML(HTTParty.get(url).body)
   end
 
+  def title_links
+    title_links = get_page.css(".gs_rt a")
+  end
+
 end
 
 
 
 
-# Get an array of links to titles
-# article_title_links = @page.css(".gs_rt a")
 #
 # # Pull out all the titles
 # titles = article_title_links.map {|l| l.children[0].to_s}
