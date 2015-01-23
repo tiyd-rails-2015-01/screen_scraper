@@ -30,5 +30,9 @@ class ScholarScraperTest < Minitest::Test
     assert author.title_creation.include?("Good features to track")
   end
 
+  def test_return_years
+    author = ScholarScraper.new("Carlo Tomasi")
+    assert author.years.include?("1992")
+  end
     #when I query for an author, it returns that author's titles in an array
 end

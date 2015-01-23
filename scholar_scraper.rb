@@ -53,15 +53,16 @@ class ScholarScraper
   def page_body
     @page = Nokogiri::HTML(HTTParty.get(user_link).body)
   end
-  ## Get an array of links to titles
+  ## Get an array of links to titles, Pull out all the titles
   def title_creation
     article_title_links = page_body.css(".gs_rt a")
     titles = article_title_links.map {|l| l.children[0].to_s}
     return titles
   end
-  # Pull out all the titles
-  #titles = article_title_links.map {|l| l.children[0].to_s}
-#
+
+  def years
+    years = page_body.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
+  end
   ## Find all the publication years
   #years = page.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
 #
