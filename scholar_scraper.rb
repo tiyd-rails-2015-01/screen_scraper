@@ -28,6 +28,8 @@ class ScholarScraper
     @full_page = full_page
     @titles = nil
     @years = nil
+    @authors = nil
+    @locations = nil
   end
 
   def pageContent
@@ -50,11 +52,21 @@ class ScholarScraper
     @years = @full_page.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}#<-looking for a string of 4 digits
   end
 
+  def getAuthors
+    @authors = @full_page.css(".gs_a a").map {|a| a.children[0..-1].to_s.gsub(/<\/?[^>]*>/,"") }
+  end
+
+
+  def getLocations
+    # @full_page.css("a").remove
+    @locations = @full_page.css(".gs_a").map {|a| a.children[0..-1].to_s.gsub(/<\/?[^>]*>/,"")}
+
+  end
 
   def getArticles
     arrayOfArticles = []
     @titles.each_with_index do |title, index|
-      arrayOfArticles << Article.new(title, @years[index],nil,nil)
+      arrayOfArticles << Article.new(title, @years[index], @authors[index], @locations[index])
     end
 
     return arrayOfArticles
@@ -64,7 +76,9 @@ class ScholarScraper
     bunchOfArticles = getArticles
 
     bunchOfArticles.each do |article|
-      puts "#{article.year} - #{article.title}"
+      puts "#{article.year} - #{article.title} - #{article.author}"
+      puts "#{article.location}"
+      puts ""
     end
   end
 end
@@ -73,4 +87,6 @@ scraper = ScholarScraper.new("Carlo Tomasi",Nokogiri::HTML(File.open("./carlo.ht
 scraper.getPage
 scraper.getTitles
 scraper.getYears
+scraper.getAuthors
+scraper.getLocations
 scraper.showArticles
