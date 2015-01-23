@@ -19,7 +19,10 @@ class ScreenScraperTest < Minitest::Test
   end
 
   def test_02_article_titles_in_array
-    assert article_title_links.is_a?
+    html_query = HtmlQuery.new("Carlo Tomasi")
+    html_query.article_title_links
+
+    assert html_query.article_title_links.is_a?(Array)
   end
 
 
