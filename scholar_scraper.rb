@@ -31,15 +31,17 @@ class ScholarScraper
     titles = title_links.map {|l| l.children[0].to_s}
   end
 
+  # def
+  #   years = @page.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}end
 end
 
 
 
 
 
+
+
 #
-# # Find all the publication years
-# years = @page.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
 #
 # # Write out all the publications in the form "2013 - Paper's Awesome Title"
 # titles.each_with_index do |t, i|
