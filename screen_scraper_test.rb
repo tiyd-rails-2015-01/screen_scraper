@@ -18,11 +18,11 @@ class ScreenScraperTest < Minitest::Test
     assert HtmlQuery.new("Carlo Tomasi")
   end
 
-  def test_02_article_titles_in_array
+  def test_02_name_converts_to_url
     html_query = HtmlQuery.new("Carlo Tomasi")
-    html_query.article_title_links
-
-    assert html_query.article_title_links.is_a?(Array)
+    assert_equal html_query.url, "https://scholar.google.com/scholar?q=carlo+tomasi"
+    html_query2 = HtmlQuery.new("Albert Einstein")
+    assert_equal html_query2.url, "https://scholar.google.com/scholar?q=albert+einstein"
   end
 
 
