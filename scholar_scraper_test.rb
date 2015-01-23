@@ -3,10 +3,22 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './scholar_scraper'
 
-class CurrencyTest < Minitest::Test
+class ScholarScraperTest < Minitest::Test
+
+  def test_we_have_a_page_class
+    assert Page
+  end
+
+  def test_we_have_an_article_class
+    assert Article
+  end
+
+  def test_we_have_a_format_class
+    assert Format
+  end
 
   def test_00_gets_a_name
-    
+    assert page != nil
   end
 
 ##nokogiri successfully gets some data
@@ -28,4 +40,4 @@ class CurrencyTest < Minitest::Test
 
 ##print info for each entry with correct formatting <- break this down in greater detail
     ##author, "Title" in "Confrence Name", city, state, year, pages
-def
+end

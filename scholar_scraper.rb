@@ -2,6 +2,10 @@ require 'httparty'
 require 'nokogiri'
 require 'pry'
 
+require 'page'
+require 'article'
+require 'format'
+
 # Get the results page for Carlo Tomasi
 page = Nokogiri::HTML(HTTParty.get("http://scholar.google.com/scholar?q=carlo+tomasi&hl=en&as_sdt=0,34").body)
 
@@ -21,3 +25,30 @@ titles.each_with_index do |t, i|
   # binding.pry
 
 end
+
+#####
+# class Page
+# => @titles
+# => @years
+# => @authors
+# => @locations
+# getTitles
+# getAuthors
+# getYears
+# getLocations
+#########
+
+######
+# class Article
+# => @title
+# => @year
+# => @author
+# => @location
+# initialize( title, year, author, location)
+###########
+
+########
+# class Format
+# =>
+# makeCitation( author, title, publication, conferenceAddress, year, pagenumbers)
+#########
