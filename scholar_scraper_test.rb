@@ -34,5 +34,9 @@ class ScholarScraperTest < Minitest::Test
     author = ScholarScraper.new("Carlo Tomasi")
     assert_match (/1992/), author.years.to_s
   end
-    #when I query for an author, it returns that author's titles in an array
+
+  def test_list_pub_titles
+    author = ScholarScraper.new("Carlo Tomasi")
+    list.include?("1994 - Good features to track")
+  end
 end
