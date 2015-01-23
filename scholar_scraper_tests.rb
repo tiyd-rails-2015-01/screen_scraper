@@ -17,28 +17,32 @@ class ScholarScraperTests <Minitest::Test
     assert Article
   end
 
+  def raw_html
+    File.open("carlo.html").read
+  end
+
   def test_can_make_url
     test_author=ScholarScraper.new("Carlo Tomasi")
     assert_equal "http://scholar.google.com/scholar?q=Carlo+Tomasi&hl=en&as_sdt=0,34", test_author.url
   end
 
   def test_array_of_article_title_links
-    test_author=ScholarScraper.new("Carlo Tomasi")
-    assert_match (/Carlo Tomasi/), test_author.title_links.to_s
+    test_author=ScholarScraper.new("Carlo Tomasi", raw_html)
+    assert_match (/ieeexplore/), test_author.title_links.to_s
   end
 
   def test_pull_out_titles
-    test_author=ScholarScraper.new("Carlo Tomasi")
+    test_author=ScholarScraper.new("Carlo Tomasi", raw_html)
     assert_match (/Good features to track/), test_author.titles.to_s
   end
 
   def test_publication_years
-    test_author=ScholarScraper.new("Carlo Tomasi")
+    test_author=ScholarScraper.new("Carlo Tomasi", raw_html)
     assert_match (/1994/), test_author.years.to_s
   end
 
   def test_write_out_publications
-    test_author=ScholarScraper.new("Carlo Tomasi")
-    assert_equal "1994- Good features to track", test_author.print_list[0]
+    test_author=ScholarScraper.new("Carlo Tomasi", raw_html)
+    assert_equal "1994 - Good features to track", test_author.bibliography[0]
   end
 end

@@ -1,6 +1,7 @@
 require 'httparty'
 require 'nokogiri'
 require './article'
+require 'pry'
 
 def get_user_input
   gets.chomp
@@ -9,43 +10,51 @@ end
 class ScholarScraper
   attr_reader :author
 
-  def initialize(author)
+  def initialize(author, full_page=nil)
     @author= author.split(" ")
     @first_name=@author[0]
     @last_name=@author[1]
     @articles=[]
+    @titles= []
+    @full_page=full_page
   end
 
   def url
-    @url= "http://scholar.google.com/scholar?q=#{@first_name}+#{@last_name}&hl=en&as_sdt=0,34"
+    "http://scholar.google.com/scholar?q=#{@first_name}+#{@last_name}&hl=en&as_sdt=0,34"
+  end
+
+  def page_text
+    @full_page ||= HTTParty.get(url).body
   end
 
   def get_page
-    @page = Nokogiri::HTML(HTTParty.get(url).body)
+    @page = Nokogiri::HTML(page_text)
   end
 
   def title_links
-    title_links = get_page.css("gs_ri").css(".gs_rt a")
+    title_links = get_page.css(".gs_ri").css(".gs_rt a")
   end
 
   def titles
-    titles = title_links.map {|l| l.children[0].to_s}
+    @titles= title_links.map {|l| l.children[0].to_s}
+     return @titles
   end
 
   def years
+    years= []
     years = get_page.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}
+    return years
   end
 
-  def publication_list
+
+  def bibliography
+    formatted_titles = []
     titles.each_with_index do |t, i|
-      @articles << [years[i], t]
+      formatted_titles << "#{years[i]} - #{t}"
     end
+    formatted_titles
   end
-  def print_list
-    @articles.each do |article|
-      puts "#{article[0]}- #{article[1]}"
-    end
-  end
+
 end
 
 
