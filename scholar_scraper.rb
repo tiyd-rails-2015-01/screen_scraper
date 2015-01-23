@@ -33,23 +33,39 @@ require 'httparty'
 require 'nokogiri'
 require './article.rb'
 
-# Get the results page for Carlo Tomasi
-page = Nokogiri::HTML(HTTParty.get("http://scholar.google.com/scholar?q=array+tomasi&hl=en&as_sdt=0,34").body)
-
-# Get an array of links to titles
-article_title_links = page.css(".gs_rt a")
-
-# Pull out all the titles
-titles = article_title_links.map {|l| l.children[0].to_s}
-
-# Find all the publication years
-years = page.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
-
-# Write out all the publications in the form "2013 - Paper's Awesome Title"
-titles.each_with_index do |t, i|
-  puts "#{years[i]} - #{t}"
+def get_user_input
+  gets.chomp
 end
 
+class ScholarScraper
+  def initialize(author)
+    @author = author.split
+    @first_name=@author[0]
+    @last_name=@author[1]
+  end
+
+  # Get the results page for Carlo Tomasi
+  def user_link
+    @user_link = "http://scholar.google.com/scholar?q=#{@first_name}+#{@last_name}&hl=en&as_sdt=0,34"
+  end
+  #user_input =
+  def page
+    @page = Nokogiri::HTML(HTTParty.get(@user_link).body)
+  end
+  ## Get an array of links to titles
+  #article_title_links = page.css(".gs_rt a")
+#
+  ## Pull out all the titles
+  #titles = article_title_links.map {|l| l.children[0].to_s}
+#
+  ## Find all the publication years
+  #years = page.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
+#
+  ## Write out all the publications in the form "2013 - Paper's Awesome Title"
+  #titles.each_with_index do |t, i|
+  #  puts "#{years[i]} - #{t}"
+  #end
+end
 
 #puts"What is their first name"
 #user_input1 = gets.chomp
