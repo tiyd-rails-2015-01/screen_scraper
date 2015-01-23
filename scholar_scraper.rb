@@ -13,6 +13,7 @@ class ScholarScraper
     @author= author.split(" ")
     @first_name=@author[0]
     @last_name=@author[1]
+    @articles=[]
   end
 
   def url
@@ -35,6 +36,16 @@ class ScholarScraper
     years = get_page.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}
   end
 
+  def publication_list
+    titles.each_with_index do |t, i|
+      @articles << [years[i], t]
+    end
+  end
+  def print_list
+    @articles.each do |article|
+      puts "#{article[0]}- #{article[1]}"
+    end
+  end
 end
 
 
