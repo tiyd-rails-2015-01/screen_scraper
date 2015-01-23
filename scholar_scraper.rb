@@ -62,6 +62,7 @@ class ScholarScraper
 
   def years
     years = page_body.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
+    return years
   end
   ## Find all the publication years
   #years = page.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}

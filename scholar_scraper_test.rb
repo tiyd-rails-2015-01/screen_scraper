@@ -32,7 +32,7 @@ class ScholarScraperTest < Minitest::Test
 
   def test_return_years
     author = ScholarScraper.new("Carlo Tomasi")
-    assert author.years.include?("1992")
+    assert_match (/1992/), author.years.to_s
   end
     #when I query for an author, it returns that author's titles in an array
 end
