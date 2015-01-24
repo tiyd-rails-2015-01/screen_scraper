@@ -32,5 +32,8 @@ class HtmlQuery
     title_links.map {|l| l.children[0].to_s}
   end
 
-
+  def years(year_links)
+    year_links.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
+  end
+  
 end

@@ -27,6 +27,7 @@ class ScreenScraperTest < Minitest::Test
 
   def test_03_article_title_links_scrapes_article_links
     carlo = HtmlQuery.new("Carlo Tomasi")
+    # carlo2 = HtmlQuery.new("Carlo Tomasi")
     url = carlo.url
     p url
     raw_text = carlo.raw_text(url)
@@ -36,9 +37,10 @@ class ScreenScraperTest < Minitest::Test
     title_links = carlo.article_title_links(page)
     # p title_links
     titles = carlo.titles(title_links)
-    p titles 
-
-
+    # p titles
+    raw_text2 = carlo.raw_text(url)
+    years = carlo.page(raw_text2)
+    p carlo.years(years)
     # assert (carlo.titles).include? "Good features to track"
   end
 
