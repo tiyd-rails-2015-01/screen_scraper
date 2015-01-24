@@ -6,6 +6,8 @@ require './html_query'
 
 class ScreenScraperTest < Minitest::Test
 
+    RAW_TEXT = File.open("carlo.html").read
+
   def carlo
     File.open("carlo.html").read
   end
@@ -26,23 +28,26 @@ class ScreenScraperTest < Minitest::Test
   end
 
   def test_03_article_title_links_scrapes_article_links
-    carlo = HtmlQuery.new("Carlo Tomasi")
-    albert = HtmlQuery.new("Albert Einstein")
+    carlo = HtmlQuery.new("Carlo Tomasi", RAW_TEXT)
+    # albert = HtmlQuery.new("Albert Einstein")
     page = carlo.page
-    page2 = albert.page
+    # page2 = albert.page
     title_links = carlo.article_title_links(page)
-    title_links2 = albert.article_title_links(page2)
+    # title_links2 = albert.article_title_links(page2)
     assert carlo.titles(title_links).include? "Good features to track"
-    assert albert.titles(title_links2).include? "Can quantum-mechanical description of physical reality be considered complete?"
+    # assert albert.titles(title_links2).include? "Can quantum-mechanical description of physical reality be considered complete?"
   end
 
   def test_04_years_returned_from_query
-    carlo = HtmlQuery.new("Carlo Tomasi")
+    carlo = HtmlQuery.new("Carlo Tomasi", RAW_TEXT)
     page = carlo.page
     years = carlo.years(page)
     assert years.to_s.include? "1998"
   end
 
+  def test_05_
+
+  end
 
 end
 # def test_01_html_query_returns_proper_url

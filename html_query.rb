@@ -17,12 +17,12 @@ class HtmlQuery
     "https://scholar.google.com/scholar?q=#{@first_name}+#{@last_name}"
   end
 
-  # def raw_text
-  #   @raw_text ||= HTTParty.get(@url).body
-  # end
+  def raw_text
+    @raw_text #||= HTTParty.get(@url).body
+  end
 
   def page
-    Nokogiri::HTML(HTTParty.get(@url).body)
+    Nokogiri::HTML(raw_text)
   end
 
   def article_title_links(page)
