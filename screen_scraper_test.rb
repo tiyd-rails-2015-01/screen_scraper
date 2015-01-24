@@ -63,7 +63,7 @@ class ScreenScraperTest < Minitest::Test
   end
 
   def test_07_user_input_returns_results
-    @scholar = gets.chomp
+  #  @scholar = gets.chomp
     carlo = HtmlQuery.new(@scholar)
     page = carlo.page
     title_links = carlo.article_title_links(page)
@@ -71,6 +71,9 @@ class ScreenScraperTest < Minitest::Test
     years = carlo.years(page)
     results = carlo.results(titles)
     assert results.include? "Detection and tracking of point features"
+  end
+
+  def test_08_
   end
 end
 # def test_01_html_query_returns_proper_url

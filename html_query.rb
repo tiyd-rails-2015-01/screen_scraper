@@ -27,7 +27,7 @@ class HtmlQuery
   end
 
   def article_title_links(page)
-    page.css(".gs_rt a")
+    page.css(".gs_rt a")[1..10]
   end
 
   def titles(title_links)
@@ -40,7 +40,7 @@ class HtmlQuery
 
   def results(titles)
     titles.each_with_index do |t, i|
-      puts "#{@first_initial}. #{@last_name.capitalize}, \"#{t},\" #{@years[i]}"
+        puts "#{@first_initial}. #{@last_name.capitalize}, \"#{t},\" #{@years[i]}"
     end
   end
 
