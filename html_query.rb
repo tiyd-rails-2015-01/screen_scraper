@@ -16,20 +16,20 @@ class HtmlQuery
     "https://scholar.google.com/scholar?q=#{@first_name}+#{@last_name}"
   end
 
-  def raw_text
+  def raw_text(url)
     @raw_text ||= HTTParty.get(url).body
   end
 
-  def page
+  def page(raw_text)
     Nokogiri::HTML(raw_text)
   end
 
-  def article_title_links
+  def article_title_links(page)
     page.css(".gs_rt a")
   end
 
-  def titles
-    article_title_links.map {|l| l.children[0].to_s}
+  def titles(title_links)
+    title_links.map {|l| l.children[0].to_s}
   end
 
 
