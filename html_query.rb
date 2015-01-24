@@ -25,7 +25,7 @@ class HtmlQuery
   end
 
   def article_title_links
-    page.css(".gs_rt a").to_a
+    page.css(".gs_rt a")
   end
 
 

@@ -25,6 +25,11 @@ class ScreenScraperTest < Minitest::Test
     assert_equal html_query2.url, "https://scholar.google.com/scholar?q=albert+einstein"
   end
 
+  def test_03_article_title_links_scrapes_article_links
+    carlo.titles
+    assert carlo.titles.include? "Good features to track"
+  end
+
 
 end
 # def test_01_html_query_returns_proper_url
