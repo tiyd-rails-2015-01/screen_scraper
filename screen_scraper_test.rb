@@ -62,6 +62,16 @@ class ScreenScraperTest < Minitest::Test
     assert_equal true, carlo.url == "https://scholar.google.com/scholar?q=carlo+tomasi"
   end
 
+  def test_07_user_input_returns_results
+    @scholar = gets.chomp
+    carlo = HtmlQuery.new(@scholar)
+    page = carlo.page
+    title_links = carlo.article_title_links(page)
+    titles = carlo.titles(title_links)
+    years = carlo.years(page)
+    results = carlo.results(titles)
+    assert results.include? "Detection and tracking of point features"
+  end
 end
 # def test_01_html_query_returns_proper_url
 #   input = HtmlQuery.new("albert einstein")
