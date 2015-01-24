@@ -52,7 +52,7 @@ class ScreenScraperTest < Minitest::Test
     titles = carlo.titles(title_links)
     years = carlo.years(page)
     results = carlo.results(titles)
-    # p years
+    assert results.include? "Detection and tracking of point features"
   end
 
 end
