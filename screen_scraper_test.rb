@@ -50,8 +50,9 @@ class ScreenScraperTest < Minitest::Test
     page = carlo.page
     title_links = carlo.article_title_links(page)
     titles = carlo.titles(title_links)
+    years = carlo.years(page)
     results = carlo.results(titles)
-    p results
+    # p years
   end
 
 end
