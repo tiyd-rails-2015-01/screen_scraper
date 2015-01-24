@@ -26,7 +26,7 @@ class ScreenScraperTest < Minitest::Test
   end
 
   def test_03_article_title_links_scrapes_article_links
-    carlo.titles
+    HtmlQuery.new("Carlo Tomasi").titles
     assert carlo.titles.include? "Good features to track"
   end
 

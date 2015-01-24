@@ -28,5 +28,9 @@ class HtmlQuery
     page.css(".gs_rt a")
   end
 
+  def titles
+    article_title_links.map {|l| l.children[0].to_s}
+  end
+
 
 end
