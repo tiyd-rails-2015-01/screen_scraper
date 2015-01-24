@@ -3,7 +3,7 @@ require 'nokogiri'
 
 
 class HtmlQuery
-  attr_reader :links, :url, :first_name, :last_name
+  attr_accessor :links, :url, :first_name, :last_name
 
   def initialize(scholar, full_page = nil)
     @scholar = scholar.split(" ")
@@ -18,7 +18,7 @@ class HtmlQuery
   end
 
   def raw_text
-    @raw_text #||= HTTParty.get(@url).body
+    @raw_text ||= HTTParty.get(@url).body
   end
 
   def page
