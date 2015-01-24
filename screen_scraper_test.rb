@@ -63,8 +63,10 @@ class ScreenScraperTest < Minitest::Test
   end
 
   def test_07_user_input_returns_results
+  # p "Please supply name of a scholar"
   #  @scholar = gets.chomp
-    carlo = HtmlQuery.new(@scholar)
+    @scholar = "Carlo Tomasi"
+    carlo = HtmlQuery.new(@scholar, RAW_TEXT)
     page = carlo.page
     title_links = carlo.article_title_links(page)
     titles = carlo.titles(title_links)
@@ -73,7 +75,15 @@ class ScreenScraperTest < Minitest::Test
     assert results.include? "Detection and tracking of point features"
   end
 
-  def test_08_
+  def test_08_results_return_ieee_format
+    carlo = HtmlQuery.new("Carlo Tomasi", RAW_TEXT)
+    page = carlo.page
+    title_links = carlo.article_title_links(page)
+    titles = carlo.titles(title_links)
+    years = carlo.years(page)
+    results = carlo.results(titles)
+    p results[0]
+    assert results.include?
   end
 end
 # def test_01_html_query_returns_proper_url

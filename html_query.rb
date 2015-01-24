@@ -40,7 +40,7 @@ class HtmlQuery
 
   def results(titles)
     titles.each_with_index do |t, i|
-        puts "#{@first_initial}. #{@last_name.capitalize}, \"#{t},\" #{@years[i]}"
+        puts "#{@first_initial}. #{@last_name.capitalize}, \"#{t},\" #{@years[i]}."
     end
   end
 
