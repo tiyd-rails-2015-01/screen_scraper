@@ -36,6 +36,14 @@ class ScreenScraperTest < Minitest::Test
     assert albert.titles(title_links2).include? "Can quantum-mechanical description of physical reality be considered complete?"
   end
 
+  def test_04_years_returned_from_query
+    carlo = HtmlQuery.new("Carlo Tomasi")
+    page = carlo.page
+    years = carlo.years(page)
+    p years
+    assert years.any?("8230")
+  end
+
 
 end
 # def test_01_html_query_returns_proper_url
