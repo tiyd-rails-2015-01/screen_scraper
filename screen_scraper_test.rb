@@ -45,8 +45,13 @@ class ScreenScraperTest < Minitest::Test
     assert years.to_s.include? "1998"
   end
 
-  def test_05_
-
+  def test_05_prints_results
+    carlo = HtmlQuery.new("Carlo Tomasi", RAW_TEXT)
+    page = carlo.page
+    title_links = carlo.article_title_links(page)
+    titles = carlo.titles(title_links)
+    results = carlo.results(titles)
+    p results
   end
 
 end
