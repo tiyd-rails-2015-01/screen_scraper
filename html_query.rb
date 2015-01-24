@@ -10,18 +10,19 @@ class HtmlQuery
     @first_name = @scholar[0].downcase
     @last_name = @scholar[1].downcase
     @raw_text = full_page
+    @url = self.url
   end
 
   def url
     "https://scholar.google.com/scholar?q=#{@first_name}+#{@last_name}"
   end
 
-  def raw_text(url)
-    @raw_text ||= HTTParty.get(url).body
-  end
+  # def raw_text
+  #   @raw_text ||= HTTParty.get(@url).body
+  # end
 
-  def page(raw_text)
-    Nokogiri::HTML(raw_text)
+  def page
+    Nokogiri::HTML(HTTParty.get(@url).body)
   end
 
   def article_title_links(page)
@@ -35,5 +36,5 @@ class HtmlQuery
   def years(year_links)
     year_links.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
   end
-  
+
 end
