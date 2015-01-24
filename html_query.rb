@@ -3,7 +3,7 @@ require 'nokogiri'
 
 
 class HtmlQuery
-  attr_accessor :links, :url, :first_name, :last_name
+  attr_reader :links, :url, :first_name, :last_name
 
   def initialize(scholar, full_page = nil)
     @scholar = scholar.split(" ")
@@ -11,6 +11,7 @@ class HtmlQuery
     @last_name = @scholar[1].downcase
     @raw_text = full_page
     @url = self.url
+    @first_initial = @first_name[0].upcase
   end
 
   def url
@@ -39,8 +40,11 @@ class HtmlQuery
 
   def results(titles)
     titles.each_with_index do |t, i|
-      puts "#{@years[i]} - #{t}"
+      puts "#{@first_initial}. #{@last_name.capitalize}, \"#{t},\" #{@years[i]}"
     end
   end
+
+
+
 
 end
