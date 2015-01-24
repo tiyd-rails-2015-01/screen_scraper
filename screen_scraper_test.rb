@@ -40,8 +40,7 @@ class ScreenScraperTest < Minitest::Test
     carlo = HtmlQuery.new("Carlo Tomasi")
     page = carlo.page
     years = carlo.years(page)
-    p years
-    assert years.any?("8230")
+    assert years.to_s.include? "1998"
   end
 
 
