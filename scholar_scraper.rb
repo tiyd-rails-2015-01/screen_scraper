@@ -54,7 +54,15 @@ class ScholarScraper
   end
 
   def getAuthors
-    @authors = @full_page.css(".gs_a a").map {|a| a.children[0..-1].to_s.gsub(/<\/?[^>]*>/,"") }
+    authors = []
+    # @authors = @full_page.css(".gs_a a").map {|a| a.children[0..-1].to_s.gsub(/<\/?[^>]*>/,"") }
+    lines = @full_page.css(".gs_a").map {|a| a.children[0..-1]}
+    lines.each do |a|
+      articles = a.to_s.gsub(/<(.*?)>/,"")
+      n = articles.gsub(/(?=\s-).*/,"")
+      authors << n.split(', ')
+    end
+    @authors = authors
   end
 
 
@@ -64,12 +72,17 @@ class ScholarScraper
 
     #cleanup
     @locations.each do |loc|
-      loc.delete("")
-      loc.delete(" ")
 
       loc.each do |chunk|
+        chunk.delete!("…")
         chunk.strip!
       end
+
+      loc.delete("")
+      loc.delete(" ")
+      loc.delete("  ")
+      loc.delete("…")
+
     end
 
   end
@@ -85,12 +98,31 @@ class ScholarScraper
 
   def showArticles
     bunchOfArticles = getArticles
+    moreAuthors = false
 
     bunchOfArticles.each do |article|
-      puts "#{article.year} - #{article.title} - #{article.author}"
+      string = ""
+      article.author.each do |a|
+        if a == "…"
+          moreAuthors = true
+        else
+          string << "#{a}, "
+        end
+      end
+
+      if moreAuthors
+        string << "et al., "
+      end
+
+      puts "#{string}\"#{article.title},\" in <name of conf>, #{article.year}"
+
       puts "#{article.location}"
       puts ""
     end
+
+    # J. K. Author, “Title of paper,” in Unabbreviated Name of Conf., City of Conf.,
+    # Abbrev. State (if given), year, pp.
+    # xxx-xxx.
   end
 end
 
