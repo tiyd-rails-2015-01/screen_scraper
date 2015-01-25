@@ -56,9 +56,12 @@ class ScholarScraper
   #   # formatted_titles
   # end
   def bibliography
+    publishers=[]
+    formated_publishers= []
     formatted_titles = []
     bibliography = []
     split_bibliography= []
+    articles= []
     authors= []
     titles.each_with_index do |t, i|
       formatted_titles << "#{years[i]} - #{t}"
@@ -69,12 +72,19 @@ class ScholarScraper
     bibliography.each { |element|
       split_bibliography << element.text }
     formatted_titles
+    # puts split_bibliography
     split_bibliography.each do |x|
       authors << x.split("-")[0]
-    # puts authors
-
+      publishers << x.split("-")[1]
     end
-    puts authors[0], titles[0]
+    publishers.each do |x|
+      formated_publishers << x.split(",")
+    end
+    count=0
+    while count<10
+      puts [authors[count], titles[count]]
+      count +=1
+    end
 
   end
 
