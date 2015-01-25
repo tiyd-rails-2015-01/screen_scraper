@@ -26,9 +26,7 @@
 #      Note that this citation format has MANY subrequirements, so test them one at a time.
 #
 #      The link to the IEEE citation formats is given below.  Consider the results to all be "Conference Technical Articles."
-#
-#
-#
+
 require 'httparty'
 require 'nokogiri'
 require './article.rb'
@@ -44,33 +42,68 @@ class ScholarScraper
     @articles = []
   end
 
-  # Get the results page for Carlo Tomasi
+
   def user_link
     "http://scholar.google.com/scholar?q=#{@first_name}+#{@last_name}&hl=en&as_sdt=0,34"
   end
-  user_input =
+
   def page_body
-    @page = Nokogiri::HTML(page_content)
+    Nokogiri::HTML(page_content)
   end
-  ## Get an array of links to titles, Pull out all the titles
+
   def title_creation
     article_title_links = page_body.css(".gs_ri").css(".gs_rt a")
     titles = article_title_links.map {|l| l.children[0].to_s}
     return titles
   end
-  ## Find all the publication years
-  #years = page.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
+
+  #title is "gs_rt"
+  #
+  #all the names "gs_a" inside <a href>
+  #
+  #years"gs_a" after <a href>
+  #
+  #location "gs_r" "gs_ri" "gs_a" after <a href> after years
+
+  def grab_articles
+    title = []
+    name = []
+    year = []
+    location = []
+    articles = page_body.css(".gs_r").css(".gs_ri")
+    articles.each do |article|
+      title << article.css(".gs_rt a").children[0].to_s #.map {|l| l.children[0].to_s}
+      name << article.css(".gs_a a").children[0].to_s #unless name.match(/([A-Z])[\s-]/)
+      #if name == name.match(/([A-Z])[\s-]/)
+      #  name << (page_body.css(".gs_a a").children[0]).to_s =+ (page_body.css(".gs_a a").css("b").children[0])
+      #end
+      year <<  article.css(".gs_a").to_s.match(/[12]\d{3}/)
+      temp_location = article.css(".gs_a").children.last.to_s.match(/[\s-][A-Z](...)*[\s][\s]/).to_s#.names[0]
+      location << temp_location ? temp_location :""      #/[\s-][A-Z](...)*[\s][\s]/)  #{}/[\s-][\s]*[A-Z][a-z]+[^,]/)
+    end
+    binding.pry
+  end
+
+
   def years
     years = page_body.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}
     return years
   end
+
+  def other_authors
+    author = page_body.css(".gs_ri").css(".gs_a").map {|l| l.children[0].to_s.match(/([A-Z]*)[\s-]([A-Z][a-z]*)/)}
+    #binding.pry
+    return author
+  end
+
+
 
   def list
     title_creation.each_with_index do |t, i|
       puts "#{years[i]} - #{t}"
       @articles << Article.new(years[i],t)
     end
-    binding.pry
+    #binding.pry
   end
 
   def page_content
