@@ -7,4 +7,4 @@ This program enables you to search Google Scholar, take the results and export t
 This Ruby project requires the gems HTTparty and Nokogiri, the gem bundle for which is included in the file.
 
 ## How to run:
-From your command line, enter ruby run_scraper.rb. The program will prompt you for a first and last name. 
+From your command line, enter ruby run_scraper.rb. The program will prompt you for a first and last name.
