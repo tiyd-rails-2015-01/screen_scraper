@@ -38,4 +38,13 @@ class ScholarScraperTest < Minitest::Test
     author = ScholarScraper.new("Carlo Tomasi",raw_html)
     author.list.include?("1994 - Good features to track")
   end
+
+  def test_article
+    tomasi = Article.new("C Tomasi", "Good features to track", "1994", nil)
+    assert_equal tomasi.bibliography, 'C Tomasi, "Good features to track," 1994.'
+
+    tomasi_conf = Article.new("C Tomasi", "Good features to track", "1994", "Proceedings CVPR'94.")
+    assert_equal tomasi_conf.bibliography, 'C Tomasi, "Good features to track," in Proceedings CVPR\'94., 1994.'
+  end
+  
 end
