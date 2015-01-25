@@ -3,10 +3,6 @@ require 'nokogiri'
 require './article'
 require 'pry'
 
-def get_user_input
-  gets.chomp
-end
-
 class ScholarScraper
   attr_accessor :author
 
@@ -46,15 +42,6 @@ class ScholarScraper
     return years
   end
 
-
-  # def bibliography
-  #   formatted_titles = []
-  #   titles.each_with_index do |t, i|
-  #     formatted_titles << "#{years[i]} - #{t}"
-  #   end
-  #   puts get_page.at_xpath("//div[class='gs_a']")
-  #   # formatted_titles
-  # end
   def bibliography
     publishers=[]
     formated_publishers= []
@@ -63,6 +50,7 @@ class ScholarScraper
     split_bibliography= []
     articles= []
     authors= []
+    final_bibliography= []
     titles.each_with_index do |t, i|
       formatted_titles << "#{years[i]} - #{t}"
     end
@@ -80,14 +68,16 @@ class ScholarScraper
 
     count=0
     while count<10
-      puts "#{authors[count]}, #{titles[count]}, #{publishers[count]}"
+      final_bibliography << "#{authors[count]}, #{titles[count]}, #{publishers[count]}"
       count +=1
     end
+    final_bibliography.to_s
 
   end
 
 
 end
+<<<<<<< HEAD
 
 
 
@@ -100,3 +90,5 @@ end
 # titles.each_with_index do |t, i|
 #   puts "#{years[i]} - #{t}"
 # end
+=======
+>>>>>>> e2bae14e5d37359024dbc09c9c3645add1ebb4f6
