@@ -1,13 +1,15 @@
 ##allows input of search term
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'httparty'
+require 'nokogiri'
 require './scholar_scraper'
 
-class ScholarScraperTest < Minitest::Test
 
-  # def test_we_have_a_page_class
-  #   assert Page
-  # end
+require './article.rb'
+require './format.rb'
+
+class ScholarScraperTest < Minitest::Test
 
   def test_we_have_an_article_class
     assert Article
@@ -17,14 +19,37 @@ class ScholarScraperTest < Minitest::Test
     assert Format
   end
 
-  def test_00_gets_a_name
-    assert page != nil
+  def test_00_takes_one_parameter
+    assert ScholarScraper.new("Test Author")
   end
 
-  def test_moo
-    scraper = ScholarScraper.new("Carlo Tomasi", File.open("./carlo.html").read)
-    assert_match (/Carlo Tomasi/), scraper.title_links.to_s
+  def test_pageContent
+    scraper = ScholarScraper.new("Carlo Tomasi")
+    assert scraper.pageContent != nil
   end
+
+  def test_format_initializes
+    assert format = Format.new
+  end
+
+  def test_article_initializes
+    assert article = Article.new("Arbitrary", "1900","Arbitrary","Arbitrary")
+  end
+
+
+  # def test_citation_include_year
+  #   scraper = ScholarScraper.new("Carlo Tomasi",Nokogiri::HTML(File.open("./carlo.html")))
+  #   scraper.getPage
+  #   scraper.getTitles
+  #   scraper.getYears
+  #   scraper.getAuthors
+  #   scraper.getLocations
+  #
+  #   formatter = Format.new
+  #   assert formatter.makeCitation( scraper.getArticles ).match(/[12]\d{3}/) != ""
+  #
+  # end
+
 
 ##nokogiri successfully gets some data
 

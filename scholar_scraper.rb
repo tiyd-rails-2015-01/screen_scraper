@@ -1,16 +1,16 @@
-require 'httparty'
-require 'nokogiri'
-require 'pry'
-
-require './article.rb'
-require './format.rb'
+# require 'httparty'
+# require 'nokogiri'
+# require 'pry'
+#
+# require './article.rb'
+# require './format.rb'
 
 class ScholarScraper
 
   def initialize(author, full_page = nil)
-    @author
+    @author = author
     @articles=[]
-    @url = "http://scholar.google.com/scholar?q=#{@author}&hl=en&as_sdt=0,34"
+    @url = "http://scholar.google.com/scholar?q=#{@author}"
     @full_page = full_page
     @titles = nil
     @years = nil
@@ -46,6 +46,7 @@ class ScholarScraper
     lines.each do |a|
       articles = a.to_s.gsub(/<(.*?)>/,"")
       n = articles.gsub(/(?=\s-).*/,"")
+      n.delete!("&#8230;")
 
       authors << n.split(', ')
     end
@@ -65,6 +66,10 @@ class ScholarScraper
       n = articles.gsub(/(?=\s-).*/,"")
       n.slice!("  …")
       n.slice!(" …")
+      n.slice!("  &#8230;")
+      n.slice!("&#8230; ,")
+
+      n.slice!("&#8230;")
 
       locations << n
     end
@@ -80,39 +85,30 @@ class ScholarScraper
     return arrayOfArticles
   end
 
-  def showArticles
-    bunchOfArticles = getArticles
-    moreAuthors = false
-
-    bunchOfArticles.each do |article|
-      string = ""
-      article.author.each do |a|
-        if a == "…"
-          moreAuthors = true
-        else
-          string << "#{a}, "
-        end
-      end
-
-      if moreAuthors
-        string << "et al., "
-      end
-
-      citation = "#{string}\"#{article.title},\" "
-      if article.location.match(/\A[12]\d{3}/) == nil
-        citation << "in "
-      end
-
-      puts "#{citation}#{article.location}"
-      puts ""
-    end
-  end
+  # def showArticles
+  #   bunchOfArticles = getArticles
+  #   moreAuthors = false
+  #
+  #   bunchOfArticles.each do |article|
+  #     string = ""
+  #     article.author.each do |a|
+  #       if a == "…"
+  #         moreAuthors = true
+  #       elsif !a.empty?
+  #         string << "#{a}, "
+  #       end
+  #     end
+  #
+  #     if moreAuthors
+  #       string << "et al., "
+  #     end
+  #
+  #     citation = "#{string}\"#{article.title},\" "
+  #     if article.location.match(/\A[12]\d{3}/) == nil
+  #       citation << "in "
+  #     end
+  #
+  #     puts "#{citation}#{article.location}\n\n"
+  #   end
+  # end
 end
-
-scraper = ScholarScraper.new("Carlo Tomasi",Nokogiri::HTML(File.open("./carlo.html")))
-scraper.getPage
-scraper.getTitles
-scraper.getYears
-scraper.getAuthors
-scraper.getLocations
-scraper.showArticles
