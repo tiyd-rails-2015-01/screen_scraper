@@ -1,5 +1,5 @@
-require './scholar_scraper.rb'
-require './article.rb'
+#require './scholar_scraper.rb'
+
 
 class Article
   attr_accessor :author, :title, :year, :conf_name
@@ -22,7 +22,3 @@ class Article
   end
 
 end
-
-
-#tomasi = Article.new("C Tomasi", "Good features to track", nil, "1994")
-#puts tomasi.bibliography

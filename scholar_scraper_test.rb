@@ -51,4 +51,5 @@ class ScholarScraperTest < Minitest::Test
   #  tomasi_conf = Article.new("C Tomasi", "Good features to track", "1994", "Proceedings CVPR'94.")
   #  assert_equal tomasi_conf.bibliography, 'C Tomasi, "Good features to track," in Proceedings CVPR\'94., 1994.'
   #end
+
 end
