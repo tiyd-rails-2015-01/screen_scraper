@@ -43,6 +43,6 @@ class ScholarScraperTests <Minitest::Test
 
   def test_write_out_publications
     test_author=ScholarScraper.new("Carlo Tomasi", raw_html)
-    assert_equal "1994 - Good features to track", test_author.bibliography[0]
+    assert_match (/J Shi, C Tomasi/), test_author.bibliography
   end
 end
