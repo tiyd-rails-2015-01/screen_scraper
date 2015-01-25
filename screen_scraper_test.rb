@@ -82,7 +82,6 @@ class ScreenScraperTest < Minitest::Test
     titles = carlo.titles(title_links)
     years = carlo.years(page)
     results = carlo.results(titles)
-    p results[0]
     assert results.include?
   end
 end

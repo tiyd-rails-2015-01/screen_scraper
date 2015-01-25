@@ -8,10 +8,14 @@ class HtmlQuery
   def initialize(scholar, full_page = nil)
     @scholar = scholar.split(" ")
     @first_name = @scholar[0].downcase
-    @last_name = @scholar[-1A].downcase
+    @second_name = @scholar[1]
+    @third_name = @scholar[2]
+    @last_name = @scholar[-1].downcase
     @raw_text = full_page
     @url = self.url
     @first_initial = @first_name[0].upcase
+    @second_initial = @second_name[0].upcase
+    @third_initial = @third_name[0].upcase
   end
 
   def url
@@ -40,11 +44,13 @@ class HtmlQuery
 
   def results(titles)
     titles.each_with_index do |t, i|
+      if @scholar.length == 3
+        puts "#{@first_initial}. #{@second_initial}. #{@last_name.capitalize}, \"#{t},\" #{@years[i]}."
+      elsif @scholar.length == 4
+        puts "#{@first_initial}. #{@second_initial}. #{@third_initial} #{@last_name.capitalize}, \"#{t},\" #{@years[i]}."
+      else
         puts "#{@first_initial}. #{@last_name.capitalize}, \"#{t},\" #{@years[i]}."
+      end
     end
   end
-
-
-
-
 end
