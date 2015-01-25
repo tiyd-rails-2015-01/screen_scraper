@@ -29,13 +29,13 @@ class ScreenScraperTest < Minitest::Test
 
   def test_03_article_title_links_scrapes_article_links
     carlo = HtmlQuery.new("Carlo Tomasi", RAW_TEXT)
-    # albert = HtmlQuery.new("Albert Einstein")
+    albert = HtmlQuery.new("Albert Einstein")
     page = carlo.page
-    # page2 = albert.page
+    page2 = albert.page
     title_links = carlo.article_title_links(page)
-    # title_links2 = albert.article_title_links(page2)
+    title_links2 = albert.article_title_links(page2)
     assert carlo.titles(title_links).include? "Good features to track"
-    # assert albert.titles(title_links2).include? "Can quantum-mechanical description of physical reality be considered complete?"
+    assert albert.titles(title_links2).include? "Can quantum-mechanical description of physical reality be considered complete?"
   end
 
   def test_04_years_returned_from_query
@@ -63,8 +63,6 @@ class ScreenScraperTest < Minitest::Test
   end
 
   def test_07_user_input_returns_results
-  # p "Please supply name of a scholar"
-  #  @scholar = gets.chomp
     @scholar = "Carlo Tomasi"
     carlo = HtmlQuery.new(@scholar, RAW_TEXT)
     page = carlo.page
@@ -75,17 +73,14 @@ class ScreenScraperTest < Minitest::Test
     assert results.include? "Detection and tracking of point features"
   end
 
-  def test_08_results_return_ieee_format
-    carlo = HtmlQuery.new("Carlo Tomasi", RAW_TEXT)
-    page = carlo.page
-    title_links = carlo.article_title_links(page)
-    titles = carlo.titles(title_links)
-    years = carlo.years(page)
-    results = carlo.results(titles)
-    assert results.include?
+  def test_08_results_work_with_multiple_names
+    agnes = HtmlQuery.new("Agnes Smith Lewis")
+    page = agnes.page
+    title_links = agnes.article_title_links(page)
+    titles = agnes.titles(title_links)
+    years = agnes.years(page)
+    results = agnes.results(titles)
+    assert results.include? "Apocrypha syriaca"
+
   end
 end
-# def test_01_html_query_returns_proper_url
-#   input = HtmlQuery.new("albert einstein")
-#   assert_equal input,
-# # end

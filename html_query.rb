@@ -15,7 +15,9 @@ class HtmlQuery
     @url = self.url
     @first_initial = @first_name[0].upcase
     @second_initial = @second_name[0].upcase
-    @third_initial = @third_name[0].upcase
+    if @scholar[2] != nil
+      @third_initial = @third_name[0].upcase
+    end
   end
 
   def url
