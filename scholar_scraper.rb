@@ -8,7 +8,7 @@ def get_user_input
 end
 
 class ScholarScraper
-  attr_reader :author
+  attr_accessor :author
 
   def initialize(author, full_page=nil)
     @author= author.split(" ")
@@ -88,7 +88,6 @@ class ScholarScraper
 
 
 end
-
 
 
 
