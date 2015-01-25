@@ -50,6 +50,7 @@ class ScholarScraper
 
   def getYears
     @years = @full_page.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}#<-looking for a string of 4 digits
+
   end
 
   def getAuthors
@@ -58,8 +59,18 @@ class ScholarScraper
 
 
   def getLocations
-    # @full_page.css("a").remove
-    @locations = @full_page.css(".gs_a").map {|a| a.children[0..-1].to_s.gsub(/<\/?[^>]*>/,"")}
+    # @locations = @full_page.css(".gs_a").map {|a| a.children[0..-1].to_s.gsub(/<\/?[^>]*>/,"")}
+    @locations = @full_page.css(".gs_a").map {|a| a.children[0..-1].to_s.split(/<\/?[^>]*>|[,-]/)}
+
+    #cleanup
+    @locations.each do |loc|
+      loc.delete("")
+      loc.delete(" ")
+
+      loc.each do |chunk|
+        chunk.strip!
+      end
+    end
 
   end
 
