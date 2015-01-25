@@ -10,11 +10,11 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './scholar_scraper'
-require './article'
+
 
 class ScholarScraperTests <Minitest::Test
-  def test_article_class_exists
-    assert Article
+  def test_scholar_scraper_class_exists
+    assert ScholarScraper
   end
 
   def raw_html
@@ -43,6 +43,6 @@ class ScholarScraperTests <Minitest::Test
 
   def test_write_out_publications
     test_author=ScholarScraper.new("Carlo Tomasi", raw_html)
-    assert_match (/J Shi, C Tomasi/), test_author.bibliography
+    assert_equal "J Shi, C Tomasi , Good features to track,  … , 1994. Proceedings CVPR'94., 1994 IEEE  …, 1994 ", test_author.bibliography[0]
   end
 end

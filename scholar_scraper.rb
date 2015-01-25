@@ -1,10 +1,9 @@
 require 'httparty'
 require 'nokogiri'
-require './article'
 require 'pry'
 
 class ScholarScraper
-  attr_reader :author
+  attr_accessor :author
 
   def initialize(author, full_page=nil)
     @author= author.split(" ")
@@ -51,6 +50,7 @@ class ScholarScraper
     articles= []
     authors= []
     final_bibliography= []
+    final= []
     titles.each_with_index do |t, i|
       formatted_titles << "#{years[i]} - #{t}"
     end
@@ -71,7 +71,8 @@ class ScholarScraper
       final_bibliography << "#{authors[count]}, #{titles[count]}, #{publishers[count]}"
       count +=1
     end
-    final_bibliography.to_s
+    final_bibliography.each {|bib| final << bib.to_s}
+
 
   end
 
