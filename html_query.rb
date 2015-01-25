@@ -8,7 +8,7 @@ class HtmlQuery
   def initialize(scholar, full_page = nil)
     @scholar = scholar.split(" ")
     @first_name = @scholar[0].downcase
-    @last_name = @scholar[1].downcase
+    @last_name = @scholar[-1A].downcase
     @raw_text = full_page
     @url = self.url
     @first_initial = @first_name[0].upcase
