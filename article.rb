@@ -18,6 +18,7 @@ class Article
     if @conf_name != nil
       citation << "in #{@conf_name}, "
     end
+    citation << "#{@year}."
 
     return citation
   end
