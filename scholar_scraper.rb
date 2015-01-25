@@ -36,6 +36,7 @@ class ScholarScraper
       @articles << Article.new(name.gsub(" , " , " "), title, year, conf_name)
     end
     return @articles
+    binding.pry
   end
 
   def page_content

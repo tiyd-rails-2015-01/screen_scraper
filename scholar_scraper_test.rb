@@ -44,11 +44,11 @@ class ScholarScraperTest < Minitest::Test
     articles.create_articles
   end
 
-  def test_article
-    tomasi = Article.new("C Tomasi", "Good features to track", "1994", "")
-    assert_equal tomasi.bibliography, 'C Tomasi, "Good features to track," 1994.'
-
-    tomasi_conf = Article.new("C Tomasi", "Good features to track", "1994", "Proceedings CVPR'94.")
-    assert_equal tomasi_conf.bibliography, 'C Tomasi, "Good features to track," in Proceedings CVPR\'94., 1994.'
-  end
+  #def test_article
+  #  tomasi = Article.new("C Tomasi", "Good features to track", "1994", "")
+  #  assert_equal tomasi.bibliography, 'C Tomasi, "Good features to track," 1994.'
+#
+  #  tomasi_conf = Article.new("C Tomasi", "Good features to track", "1994", "Proceedings CVPR'94.")
+  #  assert_equal tomasi_conf.bibliography, 'C Tomasi, "Good features to track," in Proceedings CVPR\'94., 1994.'
+  #end
 end
