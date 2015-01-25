@@ -5,9 +5,9 @@ require './scholar_scraper'
 
 class ScholarScraperTest < Minitest::Test
 
-  def test_we_have_a_page_class
-    assert Page
-  end
+  # def test_we_have_a_page_class
+  #   assert Page
+  # end
 
   def test_we_have_an_article_class
     assert Article
