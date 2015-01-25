@@ -72,17 +72,15 @@ class ScholarScraper
     bibliography.each { |element|
       split_bibliography << element.text }
     formatted_titles
-    # puts split_bibliography
+
     split_bibliography.each do |x|
       authors << x.split("-")[0]
       publishers << x.split("-")[1]
     end
-    publishers.each do |x|
-      formated_publishers << x.split(",")
-    end
+
     count=0
     while count<10
-      puts [authors[count], titles[count]]
+      puts "#{authors[count]}, #{titles[count]}, #{publishers[count]}"
       count +=1
     end
 
