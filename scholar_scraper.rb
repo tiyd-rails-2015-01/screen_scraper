@@ -57,9 +57,11 @@ class ScholarScraper
     authors = []
     # @authors = @full_page.css(".gs_a a").map {|a| a.children[0..-1].to_s.gsub(/<\/?[^>]*>/,"") }
     lines = @full_page.css(".gs_a").map {|a| a.children[0..-1]}
+
     lines.each do |a|
       articles = a.to_s.gsub(/<(.*?)>/,"")
       n = articles.gsub(/(?=\s-).*/,"")
+      # (?<=-\s).*
       authors << n.split(', ')
     end
     @authors = authors
@@ -67,24 +69,42 @@ class ScholarScraper
 
 
   def getLocations
-    # @locations = @full_page.css(".gs_a").map {|a| a.children[0..-1].to_s.gsub(/<\/?[^>]*>/,"")}
-    @locations = @full_page.css(".gs_a").map {|a| a.children[0..-1].to_s.split(/<\/?[^>]*>|[,-]/)}
+    # # @locations = @full_page.css(".gs_a").map {|a| a.children[0..-1].to_s.gsub(/<\/?[^>]*>/,"")}
+    # @locations = @full_page.css(".gs_a").map {|a| a.children[0..-1].to_s.split(/<\/?[^>]*>|[,-]/)}
+    #
+    # #cleanup
+    # @locations.each do |loc|
+    #
+    #   loc.each do |chunk|
+    #     chunk.delete!("…")
+    #     chunk.strip!
+    #   end
+    #
+    #   loc.delete("")
+    #   loc.delete(" ")
+    #   loc.delete("  ")
+    #   loc.delete("…")
+    # end
 
-    #cleanup
-    @locations.each do |loc|
 
-      loc.each do |chunk|
-        chunk.delete!("…")
-        chunk.strip!
-      end
+    locations = []
+    lines = @full_page.css(".gs_a").map {|a| a.children[0..-1]}
 
-      loc.delete("")
-      loc.delete(" ")
-      loc.delete("  ")
-      loc.delete("…")
+    lines.each do |a|
+      articles = a.to_s.gsub(/<(.*?)>/,"")
+      # n = articles.gsub(/.*(?<=\s-\s)/,"")
+      n = articles.gsub(/(?<=\s-\s).*/,"")
+      articles.slice!(n)
 
+      n = articles.gsub(/(?=\s-).*/,"")
+      n.slice!("  …")
+      n.slice!(" …")
+
+      # (?<=-\s).*
+      # locations << n.split(', ')
+      locations << n
     end
-
+    @locations = locations
   end
 
   def getArticles
@@ -114,9 +134,17 @@ class ScholarScraper
         string << "et al., "
       end
 
-      puts "#{string}\"#{article.title},\" in <name of conf>, #{article.year}"
+      # puts "#{string}\"#{article.title},\" in <name of conf>, #{article.year}"
 
-      puts "#{article.location}"
+      citation = "#{string}\"#{article.title},\" "
+      if article.location.match(/\A[12]\d{3}/) == nil
+        citation << "in "
+      end
+
+      puts "#{citation}#{article.location}"
+
+      # puts "#{string}\"#{article.title},\" in #{article.location}"
+      # puts "#{article.location}"
       puts ""
     end
 
