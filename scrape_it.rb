@@ -20,7 +20,6 @@ scraper.getTitles
 scraper.getYears
 scraper.getAuthors
 scraper.getLocations
-# scraper.showArticles
 
 formatter = Format.new
 formatter.makeCitation( scraper.getArticles )
