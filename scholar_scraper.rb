@@ -1,19 +1,114 @@
-require 'httparty'
-require 'nokogiri'
+# require 'httparty'
+# require 'nokogiri'
+# require 'pry'
+#
+# require './article.rb'
+# require './format.rb'
 
-# Get the results page for Carlo Tomasi
-page = Nokogiri::HTML(HTTParty.get("http://scholar.google.com/scholar?q=carlo+tomasi&hl=en&as_sdt=0,34").body)
+class ScholarScraper
 
-# Get an array of links to titles
-article_title_links = page.css(".gs_rt a")
+  def initialize(author, full_page = nil)
+    @author = author
+    @articles=[]
+    @url = "http://scholar.google.com/scholar?q=#{@author}"
+    @full_page = full_page
+    @titles = nil
+    @years = nil
+    @authors = nil
+    @locations = nil
+  end
 
-# Pull out all the titles
-titles = article_title_links.map {|l| l.children[0].to_s}
+  def pageContent
+    return HTTParty.get(@url).body
+  end
 
-# Find all the publication years
-years = page.css(".gs_a").map {|y| y.to_s.match(/\d{4}/)}
 
-# Write out all the publications in the form "2013 - Paper's Awesome Title"
-titles.each_with_index do |t, i|
-  puts "#{years[i]} - #{t}"
+  def getPage
+    return @full_page ||= Nokogiri::HTML(pageContent)
+  end
+
+
+  def getTitles
+    article_title_links = @full_page.css(".gs_ri").css(".gs_rt a")
+    @titles = article_title_links.map {|l| l.children[0].to_s}
+  end
+
+
+  def getYears
+    @years = @full_page.css(".gs_a").map {|y| y.to_s.match(/[12]\d{3}/)}#<-looking for a string of 4 digits
+
+  end
+
+  def getAuthors
+    authors = []
+    lines = @full_page.css(".gs_a").map {|a| a.children[0..-1]}
+
+    lines.each do |a|
+      articles = a.to_s.gsub(/<(.*?)>/,"")
+      n = articles.gsub(/(?=\s-).*/,"")
+      n.delete!("&#8230;")
+
+      authors << n.split(', ')
+    end
+    @authors = authors
+  end
+
+
+  def getLocations
+    locations = []
+    lines = @full_page.css(".gs_a").map {|a| a.children[0..-1]}
+
+    lines.each do |a|
+      articles = a.to_s.gsub(/<(.*?)>/,"")
+      n = articles.gsub(/(?<=\s-\s).*/,"")
+      articles.slice!(n)
+
+      n = articles.gsub(/(?=\s-).*/,"")
+      n.slice!("  …")
+      n.slice!(" …")
+      n.slice!("  &#8230;")
+      n.slice!("&#8230; ,")
+
+      n.slice!("&#8230;")
+
+      locations << n
+    end
+    @locations = locations
+  end
+
+  def getArticles
+    arrayOfArticles = []
+    @titles.each_with_index do |title, index|
+      arrayOfArticles << Article.new(title, @years[index], @authors[index], @locations[index])
+    end
+
+    return arrayOfArticles
+  end
+
+  # def showArticles
+  #   bunchOfArticles = getArticles
+  #   moreAuthors = false
+  #
+  #   bunchOfArticles.each do |article|
+  #     string = ""
+  #     article.author.each do |a|
+  #       if a == "…"
+  #         moreAuthors = true
+  #       elsif !a.empty?
+  #         string << "#{a}, "
+  #       end
+  #     end
+  #
+  #     if moreAuthors
+  #       string << "et al., "
+  #     end
+  #
+  #     citation = "#{string}\"#{article.title},\" "
+  #     if article.location.match(/\A[12]\d{3}/) == nil
+  #       citation << "in "
+  #     end
+  #
+  #     puts "#{citation}#{article.location}\n\n"
+  #   end
+  # end
 end
